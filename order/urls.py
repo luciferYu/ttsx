@@ -7,6 +7,7 @@ from .views import *
 
 urlpatterns = [
     url(r'^index/$',index,name='index'),
+    url(r'^place_order/$',place_order,name='place_order'),
 ]
 
 
