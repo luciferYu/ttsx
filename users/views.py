@@ -12,17 +12,21 @@ def index(request):
     return HttpResponse('ok')
 
 def login(request): #登录页面的逻辑
-    title = '天天生鲜登录'
+    title = '天天生鲜-登录'
     return render(request,'users/login.html',locals())
 
 def register(request):
-    pass
+    title = '天天生鲜-注册'
+    return render(request,'users/register.html',locals())
 
 def user_center_info(request):
-    pass
+    title = '天天生鲜-用户中心'
+    return render(request,'users/user_center_info.html',locals())
 
 def user_center_order(request):
-    pass
+    title = '天天生鲜-用户中心'
+    return render(request,'users/user_center_order.html',locals())
 
 def user_center_site(request):
-    pass
+    title = '天天生鲜-用户中心'
+    return render(request,'users/user_center_site.html',locals())
