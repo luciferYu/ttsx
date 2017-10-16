@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls import include # 引入包 转url到应用中的url里
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    #以下是url委托
+    url(r'^users/',include('users.urls',namespace='users')), #用户模块
+    url(r'^order/',include('order.urls',namespace='order')), #订单模块
+    url(r'^carts/',include('carts.urls',namespace='carts')), #购物车模块
+    url(r'^goods/',include('goods.urls',namespace='goods')), #商品模块
 ]

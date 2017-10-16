@@ -1,0 +1,69 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><!--设置字符集-->
+    <!--设置视口，用于手机浏览-->
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+    <!--兼容IE浏览器-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--引入reset.css 清除元素默认效果-->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <!--引入主css效果-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <!--引入jquery-->
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <!--引入为了兼容低版本ie的json-->
+    <script type="text/javascript" src="{% static 'js/json2.js' %}"></script>
+    <!--引入jquery操作cookie-->
+    <script type="text/javascript" src="{% static 'js/jquery.cookie.js'%}"></script>
+    <!--引入jquery鼠标滚动支持-->
+    <script type="text/javascript" src="{% static 'js/jquery.mousewheel.js' %}"></script>
+
+    <!--添加动画支持颜色-->
+    <script type="text/javascript" src="{% static 'js/jquery.animate-colors-min.js' %}"></script>
+
+    <!--引入heightchart-->
+    <script type="text/javascript" src="{% static 'js/heightchart/highcharts.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/heightchart/modules/exporting.js' %}"></script>
+
+    <!--网页的标题-->
+    <title>{{ title }}</title>
+    <style></style><!--页内的css-->
+    <script>
+        //页内的js
+        $(function () {  //js ready
+
+        });
+    </script>
+    {# 头部的JS部分 #}
+    {% block header_js %}{% endblock header_js %}
+
+</head>
+<body>
+    {# 网页的主题部分 #}
+
+    {% block body %}{% endblock body %}
+
+    <div class="footer {% block footer_css %}{% endblock %}">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+	<div class="add_jump"></div>
+
+    {# 网底部的JS部分 #}
+    {% block footer_js %}{% endblock footer_js %}
+</body>
+</html>
