@@ -1,0 +1,18 @@
+﻿#Windows：
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+#My configurations:
+.idea
+*.log
+/Dproject/Dproject/Dproject/__pycache__/*.pyc
+/Dproject/Dproject/news/__pycache__/*.pyc
