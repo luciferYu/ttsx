@@ -47,9 +47,22 @@ def check_register_params(request):
     if User.objects.get_user_by_name(user_name):
         print('user exsist')
         flag = False
-        add_messages(request,'user_exsist_err', '用户已存在')  # add_message(请求，消息级别，消息内容)
 
     return flag
+
+
+def user_is_exist(request):
+    '''
+    验证用户是否存在
+    :param request:
+    :return:返回用户信息对象
+    '''
+    #获取请求的用户名
+    username = get(request,'username')
+    #查询用户信息并返回
+    return User.objects.get_user_by_name(username)
+
+
 
 
 if __name__ == '__main__':

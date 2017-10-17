@@ -13,7 +13,9 @@ urlpatterns = [
     url(r'^user_center_order/',user_center_order,name='user_center_order'),
     url(r'^user_center_site/',user_center_site,name='user_center_site'),
     #处理用户注册
-    url(r'^register_handle/$',register_handle,name='register_handle')
+    url(r'^register_handle/$',register_handle,name='register_handle'),
+    #检测用户名是否存在的ajax请求
+    url(r'check_username',check_username,name='check_username')
 ]
 
 

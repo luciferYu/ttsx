@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from .functions import *
 from django.contrib import messages
 
@@ -17,7 +17,7 @@ def login(request):  # 登录页面的逻辑
 
 def register(request):
     title = '天天生鲜-注册'
-    mess = get_messages(request) #取出错误信息
+    mess = get_messages(request)  # 取出错误信息
     return render(request, 'users/register.html', locals())
 
 
@@ -50,3 +50,15 @@ def user_center_order(request):
 def user_center_site(request):
     title = '天天生鲜-用户中心'
     return render(request, 'users/user_center_site.html', locals())
+
+
+def check_username(request):
+    '''
+    检查用户名密码是否存在
+    :param request:
+    :return:
+    '''
+    if user_is_exist(request):
+        return JsonResponse({'ret':1})
+    else:
+        return JsonResponse({'ret':0})
