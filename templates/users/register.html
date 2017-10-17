@@ -3,9 +3,9 @@
 {% load staticfiles %}
 
 
-{#{% block header_js %}#}
-{#	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>#}
-{#{% endblock header_js %} #}
+{% block header_js %}
+	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock header_js %}
 
 {% block body %}
     <div class="register_con">
@@ -28,21 +28,27 @@
                             <label>用户名:</label>
                             <input type="text" name="user_name" id="user_name">
                             <span class="error_tip">提示信息</span>
+                            <span class="error_tip_info" >{{ mess.user_name_err }}</span>
+                            <span class="error_tip_info" >{{ mess.user_exsist_err }}</span>
                         </li>
                         <li>
                             <label>密码:</label>
                             <input type="password" name="user_pass1" id="pwd">
                             <span class="error_tip">提示信息</span>
+                            <span class="error_tip_info" >{{ mess.user_pass_err }}</span>
+
                         </li>
                         <li>
                             <label>确认密码:</label>
                             <input type="password" name="user_pass2" id="cpwd">
                             <span class="error_tip">提示信息</span>
+                            <span class="error_tip_info">{{ mess.user_pass_diff_err }}</span>
                         </li>
                         <li>
                             <label>邮箱:</label>
                             <input type="text" name="user_mail" id="email">
                             <span class="error_tip">提示信息</span>
+                            <span class="error_tip_info">{{ mess.user_mail_err }}</span>
                         </li>
                         <li class="agreement">
                             <input type="checkbox" name="user_allow" id="allow" checked="checked">

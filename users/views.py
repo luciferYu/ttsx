@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 # Create your views here.
 from django.http import HttpResponse
 from .functions import *
+from django.contrib import messages
 
 
 def index(request):
@@ -16,6 +17,7 @@ def login(request):  # 登录页面的逻辑
 
 def register(request):
     title = '天天生鲜-注册'
+    mess = get_messages(request) #取出错误信息
     return render(request, 'users/register.html', locals())
 
 

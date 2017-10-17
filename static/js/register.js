@@ -8,18 +8,22 @@ $(function(){
 
 
 	$('#user_name').blur(function() {
+		$('.error_tip_info').hide();
 		check_user_name();
 	});
 
 	$('#pwd').blur(function() {
+		$('.error_tip_info').hide();
 		check_pwd();
 	});
 
 	$('#cpwd').blur(function() {
+		$('.error_tip_info').hide();
 		check_cpwd();
 	});
 
 	$('#email').blur(function() {
+		$('.error_tip_info').hide();
 		check_email();
 	});
 
