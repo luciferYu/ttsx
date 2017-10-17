@@ -7,6 +7,7 @@ from .views import *
 
 urlpatterns = [
     url(r'^index/$',index,name='index'),
+    url(r'carts/$',carts,name='carts')
 ]
 
 
