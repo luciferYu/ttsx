@@ -14,6 +14,23 @@ def login(request):  # 登录页面的逻辑
     title = '天天生鲜-登录'
     return render(request, 'users/login.html', locals())
 
+def login_handle(request):
+    '''
+    用于处理登录请求
+    :param request:
+    :return:
+    '''
+    #1.对用户名和密码做简单的校验
+    print('1111')
+    user = check_login_params(request)
+    if user:
+        print('222')
+        response = auth_user(request,user)
+        return response
+    else:
+        print('333')
+        return  redirect(reverse('users:login'))# 如果用户名和密码简单校验失败则直接重回登录页面
+
 
 def register(request):
     title = '天天生鲜-注册'
