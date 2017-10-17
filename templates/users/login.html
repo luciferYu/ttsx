@@ -18,7 +18,7 @@
 				<div class="form_input">
 					<form method="post" action="{% url 'users:login_handle' %}">
                         {% csrf_token %}
-						<input type="text" name="user_name" class="name_input" placeholder="请输入用户名">
+						<input type="text" name="user_name" class="name_input" value="{{ request.COOKIES.username }}" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
 						<input type="password" name="user_pass" class="pass_input" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
