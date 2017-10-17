@@ -31,6 +31,18 @@ def login_handle(request):
         print('333')
         return  redirect(reverse('users:login'))# 如果用户名和密码简单校验失败则直接重回登录页面
 
+def logout(request):
+    '''
+    注销操作
+    :param request:
+    :return:
+    '''
+    # 1.清除session
+    flush_session(request)
+    # 2.页面跳转
+    return redirect(reverse('users:login'))
+
+
 
 def register(request):
     title = '天天生鲜-注册'

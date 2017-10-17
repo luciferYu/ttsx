@@ -30,25 +30,21 @@ def check_register_params(request):
 
     # 判断密码长度
     if not (8 <= len(user_pass1) <= 20):
-        print('passlen')
         flag = False
         add_messages(request, 'user_pass_err', '密码长度应该在8到20之间')  # add_message(请求，消息级别，消息内容)
 
     if user_pass1 != user_pass2:
-        print('pass.pass')
         flag = False
         add_messages(request, 'user_pass_diff_err', '两次密码必须一致')  # add_message(请求，消息级别，消息内容)
 
     # 判断邮箱是否合法
     reg = '^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$'
     if not re.match(reg, user_mail):
-        print('mail')
         flag = False
         add_messages(request, 'user_mail_err', '邮箱不符合规则')  # add_message(请求，消息级别，消息内容)
 
     # 判断用户是否存在
     if User.objects.get_user_by_name(user_name):
-        print('user exsist')
         flag = False
 
     return flag
@@ -90,20 +86,19 @@ def check_login_params(request):
         return user
 
 
-def auth_user(request,user):
+def auth_user(request, user):
     '''
     验证用户，并返回响应
     :param user: 基础校验后的用户
     :return: 验证成功登录主页，验证失败返回登录界面
     '''
-    salt = user.user_salt #3.用户salt
-    submit_passwd = password_encryption(post(request,'user_pass'),salt)
+    salt = user.user_salt  # 3.用户salt
+    submit_passwd = password_encryption(post(request, 'user_pass'), salt)
     user_passwd = user.user_pass
-    print(submit_passwd,user_passwd)
-    if submit_passwd == user_passwd:    #3.匹配密码
+    if submit_passwd == user_passwd:  # 3.匹配密码
         response = redirect(reverse('goods:index'))
         keep_user_online(request)
-        remeber_username(request,response)
+        remeber_username(request, response)
         return response
     else:
         return redirect(reverse('users:login'))
@@ -115,18 +110,20 @@ def keep_user_online(request):
     :param request: 用户的请求
     :return:
     '''
-    set_session(request,'username',post(request,'user_name'))
+    set_session(request, 'username', post(request, 'user_name'))
 
-def remeber_username(request,response):
+
+def remeber_username(request, response):
     '''
     用户是否在登录页面勾选了记住我,将用户名放入到响应的cookie中
     :param request:
     :param response:
     :return:
     '''
-    username_remeber = post(request,'user_remb')
+    username_remeber = post(request, 'user_remb')
     if username_remeber:
-        set_cookie(response,'username',post(request,'user_name'))
+        set_cookie(response, 'username', post(request, 'user_name'))
+
 
 if __name__ == '__main__':
     pass
