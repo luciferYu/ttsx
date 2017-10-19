@@ -10,7 +10,7 @@ class Category(AbstractModel):
     商品分类类
     '''
     cag_name = models.CharField(max_length=30)  # 分类名称
-    cag_image = models.ImageField()  # 分类图片
+    cag_image = models.ImageField(upload_to='banner')  # 分类图片
 
 
 class GoodsInfoManager(models.Manager):
@@ -44,7 +44,4 @@ class Advertise(AbstractModel):
     ad_link = models.CharField(max_length=200)  # 广告链接
 
 
-class Banner(AbstractModel):
-    bn_name = models.CharField(max_length=30)  # banner 名称
-    bn_image = models.ImageField(upload_to='banner')  # banner图片
-    bn_link = models.CharField(max_length=200)  # banner 链接
+
