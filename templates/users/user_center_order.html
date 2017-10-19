@@ -14,14 +14,8 @@
     </div>
 
     <div class="main_con clearfix">
-        <div class="left_menu_con clearfix">
-            <h3>用户中心</h3>
-            <ul>
-                <li><a href="user_center_info.html">· 个人信息</a></li>
-                <li><a href="user_center_order.html" class="active">· 全部订单</a></li>
-                <li><a href="user_center_site.html">· 收货地址</a></li>
-            </ul>
-        </div>
+        {# 左侧菜单 #}
+        {% include 'users/common_left_menu.html' with flag='order' %}
         <div class="right_content clearfix">
             <h3 class="common_title2">全部订单</h3>
             <ul class="order_list_th w978 clearfix">

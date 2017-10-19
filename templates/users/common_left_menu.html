@@ -1,0 +1,12 @@
+{% load users_filters %}
+<div class="left_menu_con clearfix">
+    <h3>用户中心</h3>
+    <ul>
+        {# 根据传入的内容创建菜单 #}
+        {% with menus=flag|create_user_center_left_menu %}
+        {% for menu in menus %}
+        <li><a href="{{ menu.link }}" class="{{ menu.active }}">{{ menu.name }}</a></li>
+            {% endfor %}
+        {% endwith %}
+    </ul>
+</div>
