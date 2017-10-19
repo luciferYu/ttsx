@@ -32,5 +32,6 @@ class User(AbstractModel):
     user_tele = models.CharField(max_length=11)  #用户手机
     user_code = models.CharField(max_length=10)   #邮政编码
     user_salt = models.CharField(max_length=6)  #用户salt
+    user_recv = models.CharField(max_length=20,default='') #收件人姓名
 
     objects = UserManager()
