@@ -5,6 +5,8 @@
 # 封装post请求,把送过来的参数去掉前后空格
 import hashlib
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
 
 def post(request,key):
     return request.POST.get(key,'').strip()
@@ -105,6 +107,22 @@ def get_messages(request):
     return info
 
 
+def check_user_login(request):
+    '''
+    检测用户是否登录
+    :param request:
+    :return: 登录的话返回用户的用户名
+    '''
+    return get_session(request,'username')
+
+def check_permission(view_func):
+    def wrapper(request,*args,**kwargs):
+        if check_user_login(request):
+            #如果用户登录，则正常访问
+            return view_func(request,*args,**kwargs)
+        else:
+            return redirect(reverse('users:login'))
+    return wrapper
 
 
 

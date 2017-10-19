@@ -42,13 +42,10 @@ def logout(request):
     # 2.页面跳转
     return redirect(reverse('users:login'))
 
-
-
 def register(request):
     title = '天天生鲜-注册'
     mess = get_messages(request)  # 取出错误信息
     return render(request, 'users/register.html', locals())
-
 
 def register_handle(request):  # 处理注册
     '''
@@ -65,17 +62,17 @@ def register_handle(request):  # 处理注册
         print('用户不合法')
         return redirect(reverse('users:register'))
 
-
+@check_permission
 def user_center_info(request):
     title = '天天生鲜-用户中心'
     return render(request, 'users/user_center_info.html', locals())
 
-
+@check_permission
 def user_center_order(request):
     title = '天天生鲜-用户中心'
     return render(request, 'users/user_center_order.html', locals())
 
-
+@check_permission
 def user_center_site(request):
     title = '天天生鲜-用户中心'
     return render(request, 'users/user_center_site.html', locals())

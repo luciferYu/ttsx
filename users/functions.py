@@ -96,7 +96,11 @@ def auth_user(request, user):
     submit_passwd = password_encryption(post(request, 'user_pass'), salt)
     user_passwd = user.user_pass
     if submit_passwd == user_passwd:  # 3.匹配密码
-        response = redirect(reverse('goods:index'))
+        prev_url = get_session(request,'pre_url')
+        if not prev_url:
+            response = redirect(reverse('goods:index'))
+        else:
+            response = redirect(prev_url)
         keep_user_online(request)
         remeber_username(request, response)
         return response
