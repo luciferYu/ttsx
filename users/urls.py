@@ -17,7 +17,8 @@ urlpatterns = [
     #处理用户注册
     url(r'^register_handle/$',views.register_handle,name='register_handle'),
     #检测用户名是否存在的ajax请求
-    url(r'check_username',views.check_username,name='check_username')
+    url(r'check_username',views.check_username,name='check_username'),
+    url(r'^user_addr_edit/$',views.user_addr_edit,name='user_addr_edit')
 ]
 
 

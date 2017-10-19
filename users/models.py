@@ -22,6 +22,16 @@ class UserManager(models.Manager):
         user.user_mail = post(request,'user_mail')
         user.save()
 
+    def user_addr_update(self,request):
+        user = self.get_user_by_name(get_session(request,'username'))  # 获得用户
+        #更新用户地址信息
+        user.user_recv = post(request, 'user_recv')
+        user.user_addr = post(request, 'user_addr')
+        user.user_code = post(request, 'user_code')
+        user.user_tele = post(request, 'user_tele')
+        # 保存数据
+        user.save()
+
 
 #用户模型类
 class User(AbstractModel):

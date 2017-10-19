@@ -76,6 +76,12 @@ def user_center_order(request):
 @check_permission
 def user_center_site(request):
     title = '天天生鲜-用户中心'
+    current_user = User.objects.get_user_by_name(get_session(request,'username'))
+    userrecv = current_user.user_recv
+    useraddr = current_user.user_addr
+    usercode = current_user.user_code
+    usertele = current_user.user_tele
+    usertele2 = usertele[:3] + '****' + usertele[-4:]
     return render(request, 'users/user_center_site.html', locals())
 
 
@@ -89,3 +95,24 @@ def check_username(request):
         return JsonResponse({'ret':1})
     else:
         return JsonResponse({'ret':0})
+
+def user_addr_edit(request):
+    '''
+    更新用户信息
+    :param request:
+    :return:
+    '''
+    if check_addr_param(request):
+        User.objects.user_addr_update(request)
+    return redirect(reverse('users:user_center_site'))
+
+
+
+
+
+
+
+
+
+
+

@@ -96,7 +96,7 @@ def auth_user(request, user):
     submit_passwd = password_encryption(post(request, 'user_pass'), salt)
     user_passwd = user.user_pass
     if submit_passwd == user_passwd:  # 3.匹配密码
-        prev_url = get_session(request,'pre_url')
+        prev_url = get_session(request, 'pre_url')
         if not prev_url:
             response = redirect(reverse('goods:index'))
         else:
@@ -127,6 +127,29 @@ def remeber_username(request, response):
     username_remeber = post(request, 'user_remb')
     if username_remeber:
         set_cookie(response, 'username', post(request, 'user_name'))
+
+
+def check_addr_param(request):
+    '''
+    检查修改收件人信息函数参数
+    :param request:
+    :return:
+    '''
+    user_recv = post(request, 'user_recv')
+    user_addr = post(request, 'user_addr')
+    user_code = post(request, 'user_code')
+    user_tele = post(request, 'user_tele')
+
+    if len(user_recv) == 0:  # 收件人为空
+        return False
+    if len(user_addr) == 0:  # 地址为空
+        return False
+    if len(user_code) != 6:  # 邮政编码不是6位
+        return False
+    if len(user_tele) != 11:  # 电话号码不是11位
+        return False
+
+    return True
 
 
 if __name__ == '__main__':
