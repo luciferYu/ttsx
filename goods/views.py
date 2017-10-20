@@ -39,6 +39,11 @@ def detail(request):
         return redirect(reverse('goods:index'))
     return render(request,'goods/detail.html',locals())
 
-def list(request):
+def list(request,cag_id):
     title= '天天生鲜-商品列表'
+    cags = Category.objects.all() # 获取商品分类
+    #根据对应的商品分类获取商品
+    goods_list = GoodsInfo.objects.get_goods_by_cagid(cag_id)
+    goods_new = GoodsInfo.objects.get_new_by_all_goods()
+
     return render(request,'goods/list.html',locals())
