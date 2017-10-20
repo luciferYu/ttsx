@@ -2,6 +2,49 @@
 {% extends 'common/base.html' %}
 {% load staticfiles %}
 {% load goods_filters %}
+{# 头部js #}
+{% block header_js %}
+    <script>
+        $(
+            function () {
+                function total_price() {
+                    var unit_price = parseFloat($(".show_pirze em").html());
+                    var counts = parseFloat($("#fruit_num").val());
+                    var total = unit_price * counts;
+
+                    return parseFloat(total.toFixed(2)) + ' 元';
+                }
+
+                $(".total em").html(total_price());
+                $(".add").click(
+                    function () {
+                        fruit_num = $("#fruit_num");
+                        var num = parseInt(fruit_num.val());
+                        num += 1;
+                        fruit_num.val(num);
+                        $(".total em").html(total_price())
+                    }
+                )
+                $(".minus").click(
+                    function () {
+                        fruit_num = $("#fruit_num");
+                        var num = parseInt(fruit_num.val());
+                        if (num > 1) {
+                            num -= 1;
+                        }
+                        fruit_num.val(num);
+                        $(".total em").html(total_price())
+                    }
+                )
+
+
+            }
+        )
+
+    </script>
+
+{% endblock header_js %}
+
 {% block body %}
     {# 上方用户状态条 #}
     {% include 'common/status.html' %}
@@ -63,7 +106,7 @@
             <div class="goods_num clearfix">
                 <div class="num_name fl">数 量：</div>
                 <div class="num_add fl">
-                    <input type="text" class="num_show fl" value="1">
+                    <input type="text" id="fruit_num" class="num_show fl" value="1">
                     <a href="javascript:;" class="add fr">+</a>
                     <a href="javascript:;" class="minus fr">-</a>
                 </div>
@@ -83,9 +126,10 @@
                 <ul>
                     <li>
                         {% for goods in goods_new %}
-                        <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
-                        <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
-                        <div class="prize">￥{{ goods.goods_price }}</div>
+                            <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img
+                                    src="{% static goods.goods_image|create_goods_image_name %}"></a>
+                            <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+                            <div class="prize">￥{{ goods.goods_price }}</div>
                         {% endfor %}
                     </li>
                 </ul>
@@ -112,14 +156,17 @@
 
 {% block footer_js %}
     <script type="text/javascript">
-        var $add_x = $('#add_cart').offset().top;
-        var $add_y = $('#add_cart').offset().left;
 
-        var $to_x = $('#show_count').offset().top;
-        var $to_y = $('#show_count').offset().left;
 
-        $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
         $('#add_cart').click(function () {
+            var $add_x = $('#add_cart').offset().top;
+            var $add_y = $('#add_cart').offset().left;
+
+            var $to_x = $('#show_count').offset().top;
+            var $to_y = $('#show_count').offset().left;
+
+            $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'});
+
             $(".add_jump").stop().animate({
                     'left': $to_y + 7,
                     'top': $to_x + 7
