@@ -33,12 +33,12 @@
 
     <div class="center_con clearfix">
         <ul class="subnav fl">
-            <li><a href="#model01" class="fruit">新鲜水果</a></li>
-            <li><a href="#model02" class="seafood">海鲜水产</a></li>
-            <li><a href="#model03" class="meet">猪牛羊肉</a></li>
-            <li><a href="#model04" class="egg">禽类蛋品</a></li>
-            <li><a href="#model05" class="vegetables">新鲜蔬菜</a></li>
-            <li><a href="#model06" class="ice">速冻食品</a></li>
+            <li><a href="{% url 'goods:list' cags.0.id 1 %}" class="fruit">{{ cags.0.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.1.id 1 %}" class="seafood">{{ cags.1.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.2.id 1 %}" class="meet">{{ cags.2.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.3.id 1 %}" class="egg">{{ cags.3.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.4.id 1 %}" class="vegetables">{{ cags.4.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.5.id 1 %}" class="ice">{{ cags.5.cag_name }}</a></li>
         </ul>
         <div class="slide fl">
             <ul class="slide_pics">
@@ -58,32 +58,33 @@
     </div>
 
     {% for cag in cags %}
-    <div class="list_model">
-        <div class="list_title clearfix">
-            <h3 class="fl" id="model01">{{ cag.cag_name }}</h3>
-            <div class="subtitle fl">
-                <span>|</span>
-                {# 显示热门的商品 #}
-                {% for goods in cag.hot %}
-                <a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a>
-                {% endfor %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">{{ cag.cag_name }}</h3>
+                <div class="subtitle fl">
+                    <span>|</span>
+                    {# 显示热门的商品 #}
+                    {% for goods in cag.hot %}
+                        <a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a>
+                    {% endfor %}
+                </div>
+                <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
             </div>
-            <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
-        </div>
 
-        <div class="goods_con clearfix">
-            <div class="goods_banner fl"><img src="{% static cag.cag_image|create_banner_image_name %}"></div>
-            <ul class="goods_list fl">
-                 {% for goods in cag.new %}
-                <li>
-                    <h4><a  href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
-                    <a  href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
-                    <div class="prize">¥ {{ goods.goods_price }}</div>
-                </li>
-                {% endfor %}
-            </ul>
+            <div class="goods_con clearfix">
+                <div class="goods_banner fl"><img src="{% static cag.cag_image|create_banner_image_name %}"></div>
+                <ul class="goods_list fl">
+                    {% for goods in cag.new %}
+                        <li>
+                            <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+                            <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img
+                                    src="{% static goods.goods_image|create_goods_image_name %}"></a>
+                            <div class="prize">¥ {{ goods.goods_price }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
     {% endfor %}
 
 {% endblock body %}

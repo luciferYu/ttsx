@@ -24,12 +24,12 @@
                 <h1>全部商品分类</h1>
                 <span></span>
                 <ul class="subnav">
-                    <li><a href="{% url 'goods:list' cags.0.id %}" class="fruit">{{ cags.0.cag_name }}</a></li>
-                    <li><a href="{% url 'goods:list' cags.1.id %}" class="seafood">{{ cags.1.cag_name }}</a></li>
-                    <li><a href="{% url 'goods:list' cags.2.id %}" class="meet">{{ cags.2.cag_name }}</a></li>
-                    <li><a href="{% url 'goods:list' cags.3.id %}" class="egg">{{ cags.3.cag_name }}</a></li>
-                    <li><a href="{% url 'goods:list' cags.4.id %}" class="vegetables">{{ cags.4.cag_name }}</a></li>
-                    <li><a href="{% url 'goods:list' cags.5.id %}" class="ice">{{ cags.5.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.0.id 1 %}" class="fruit">{{ cags.0.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.1.id 1 %}" class="seafood">{{ cags.1.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.2.id 1 %}" class="meet">{{ cags.2.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.3.id 1 %}" class="egg">{{ cags.3.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.4.id 1 %}" class="vegetables">{{ cags.4.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.5.id 1 %}" class="ice">{{ cags.5.cag_name }}</a></li>
                 </ul>
             </div>
             <ul class="navlist fl">
@@ -73,7 +73,7 @@
 
             <ul class="goods_type_list clearfix">
 
-                {% for goods in goods_list %}
+                {% for goods in current_page %}
                 <li>
                     <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
                     <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
@@ -88,15 +88,17 @@
             </ul>
 
             <div class="pagenation">
-                <a href="#">
-                    <上一页
+                {% if current_page.has_previous %}
+                <a href="{% url 'goods:list' cag_id current_page.previous_page_number %}">
+                    &lt;上一页
                 </a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">下一页></a>
+                {% endif %}
+                {% for index in paginator.page_range %}
+                <a href="{% url 'goods:list' cag_id index %}" {% if page_id == index  %}class="active"{% endif %}>{{ index }}</a>
+                {% endfor  %}
+                {% if current_page.has_next %}
+                <a href="{% url 'goods:list' cag_id current_page.next_page_number %}">下一页&gt;</a>
+                {% endif %}
             </div>
         </div>
     </div>

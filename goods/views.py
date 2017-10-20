@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from goods.models import *
 from utils.wrappers import *
 from .functions import *
+from django.core.paginator import Paginator  # 导入分页
 
 
 def index(request):
@@ -39,11 +40,20 @@ def detail(request):
         return redirect(reverse('goods:index'))
     return render(request,'goods/detail.html',locals())
 
-def list(request,cag_id):
+def list(request,cag_id,page_id):
     title= '天天生鲜-商品列表'
     cags = Category.objects.all() # 获取商品分类
     #根据对应的商品分类获取商品
     goods_list = GoodsInfo.objects.get_goods_by_cagid(cag_id)
+
+    #分页制作
+    paginator = Paginator(goods_list,10) #每页分10个商品
+
+    current_page =paginator.page(page_id)  #获得当前分页数据
+
+    #获取连个最新的广告商品
     goods_new = GoodsInfo.objects.get_new_by_all_goods()
+
+    page_id = int(page_id)  #此处一定要转换类型才可以在模板里进行比较，实现分页高亮效果
 
     return render(request,'goods/list.html',locals())
