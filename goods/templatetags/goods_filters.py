@@ -21,5 +21,9 @@ def create_goods_image_name(filename):
 
 register.filter('create_goods_image_name',create_goods_image_name)
 
+def browse_history_sort(goods_list):
+    return goods_list.order_by('-update_time')
+register.filter('browse_history_sort',browse_history_sort)
+
 if __name__ == '__main__':
     pass

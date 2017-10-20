@@ -66,6 +66,7 @@ def register_handle(request):  # 处理注册
 def user_center_info(request):
     title = '天天生鲜-用户中心'
     current_user = User.objects.get_user_by_name(get_session(request,'username'))
+    #records = UserBrowseHistory.objects.filter(browse_user=get_session(request,'uid')).order_by('-update_time')
     return render(request, 'users/user_center_info.html', locals())
 
 @check_permission

@@ -1,86 +1,53 @@
 {# 继承父模板 #}
 {% extends 'common/base.html' %}
 {% load staticfiles %}
+{% load goods_filters %}
 {% block body %}
     {# 上方用户状态条 #}
     {% include 'common/status.html' %}
 
-	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
-		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
-	</div>
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+        <div class="search_con fr">
+            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
+            <input type="button" class="input_btn fr" name="" value="搜索">
+        </div>
+    </div>
 
-	<div class="main_con clearfix">
-	  {# 左侧菜单 #}
+    <div class="main_con clearfix">
+        {# 左侧菜单 #}
         {% include 'users/common_left_menu.html' with flag='info' %}
-		<div class="right_content clearfix">
-				<div class="info_con clearfix">
-				<h3 class="common_title2">基本信息</h3>
-						<ul class="user_info_list">
-							<li><span>收件人：</span>{{ current_user.user_recv|default:'未填写' }}</li>
-							<li><span>联系方式：</span>{{ current_user.user_tele|default:'未填写' }}</li>
-							<li><span>联系地址：</span>{{ current_user.user_addr|default:'未填写' }}</li>
-						</ul>
-				</div>
-				
-				<h3 class="common_title2">最近浏览</h3>
-				<div class="has_view_list">
-					<ul class="goods_type_list clearfix">
-				<li>
-					<a href="detail.html"><img src="{% static 'images/goods/goods003.jpg' %}"></a>
-					<h4><a href="detail.html">大兴大棚草莓</a></h4>
-					<div class="operate">
-						<span class="prize">￥16.80</span>
-						<span class="unit">16.80/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+        <div class="right_content clearfix">
+            <div class="info_con clearfix">
+                <h3 class="common_title2">基本信息</h3>
+                <ul class="user_info_list">
+                    <li><span>收件人：</span>{{ current_user.user_recv|default:'未填写' }}</li>
+                    <li><span>联系方式：</span>{{ current_user.user_tele|default:'未填写' }}</li>
+                    <li><span>联系地址：</span>{{ current_user.user_addr|default:'未填写' }}</li>
+                </ul>
+            </div>
 
-				<li>
-					<a href="#"><img src="{% static 'images/goods/goods004.jpg' %}"></a>
-					<h4><a href="#">吐鲁番梨光杏</a></h4>
-					<div class="operate">
-						<span class="prize">￥5.50</span>
-						<span class="unit">5.50/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+            <h3 class="common_title2">最近浏览</h3>
+            <div class="has_view_list">
+                <ul class="goods_type_list clearfix">
+                    {% for recode in current_user.userbrowsehistory_set.all|browse_history_sort %}
+                        <li>
+                            <a href="{% url 'goods:detail' %}?id={{ recode.browse_goods.id }}">
+                                <img src="{% static recode.browse_goods.goods_image|create_goods_image_name %}"></a>
+                            <h4>
+                                <a href="{% url 'goods:detail' %}?id={{ recode.browse_goods.id }}">{{ recode.browse_goods.goods_name }}</a>
+                            </h4>
+                            <div class="operate">
+                                <span class="prize">￥{{ recode.browse_goods.goods_price }} </span>
+                                <span class="unit">{{ recode.browse_goods.goods_price }}/{{ recode.browse_goods.goods_unit }}"</span>
+                                <a href="#" class="add_goods" title="加入购物车"></a>
+                            </div>
+                        </li>
+                    {% endfor %}
 
-				<li>
-					<a href="#"><img src="{% static 'images/goods/goods005.jpg' %}"></a>
-					<h4><a href="#">黄肉桃</a></h4>
-					<div class="operate">
-						<span class="prize">￥10.00</span>
-						<span class="unit">10.00/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
-
-				<li>
-					<a href="#"><img src="{% static 'images/goods/goods006.jpg' %}"></a>
-					<h4><a href="#">进口西梅</a></h4>
-					<div class="operate">
-						<span class="prize">￥28.80</span>
-						<span class="unit">28.8/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
-
-				<li>
-					<a href="#"><img src="{% static 'images/goods/goods007.jpg' %}"></a>
-					<h4><a href="#">香梨</a></h4>
-					<div class="operate">
-						<span class="prize">￥6.45</span>
-						<span class="unit">6.45/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		</div>
-	</div>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock body %}

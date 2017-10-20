@@ -35,7 +35,6 @@ def detail(request):
         #获得最新的商品
         goods_new = GoodsInfo.objects.get_new_by_all_goods()
         update_user_browse_record(request) #更新用户浏览记录
-        print('ffff')
     except:
         return redirect(reverse('goods:index'))
     return render(request,'goods/detail.html',locals())
