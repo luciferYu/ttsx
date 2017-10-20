@@ -76,8 +76,8 @@
             <ul class="goods_list fl">
                  {% for goods in cag.new %}
                 <li>
-                    <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
-                    <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
+                    <h4><a  href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+                    <a  href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
                     <div class="prize">¥ {{ goods.goods_price }}</div>
                 </li>
                 {% endfor %}

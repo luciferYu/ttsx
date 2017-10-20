@@ -110,11 +110,13 @@ def auth_user(request, user):
 
 def keep_user_online(request):
     '''
-    登录用户记录其用户名
+    登录用户记录其用户名,和id
     :param request: 用户的请求
     :return:
     '''
-    set_session(request, 'username', post(request, 'user_name'))
+    user = User.objects.get_user_by_name(post(request, 'user_name'))
+    set_session(request, 'username', user.user_name)
+    set_session(request, 'uid', user.id)
 
 
 def remeber_username(request, response):

@@ -45,3 +45,8 @@ class User(AbstractModel):
     user_recv = models.CharField(max_length=20,default='') #收件人姓名
 
     objects = UserManager()
+
+#用户浏览记录
+class UserBrowseHistory(AbstractModel):
+    browse_goods = models.ForeignKey('goods.GoodsInfo')
+    browse_user = models.ForeignKey('users.User')

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 # Create your views here.
 from goods.models import *
 from utils.wrappers import *
+from .functions import *
 
 
 def index(request):
@@ -33,6 +34,8 @@ def detail(request):
         goods.save() # 保存访问量
         #获得最新的商品
         goods_new = GoodsInfo.objects.get_new_by_all_goods()
+        update_user_browse_record(request) #更新用户浏览记录
+        print('ffff')
     except:
         return redirect(reverse('goods:index'))
     return render(request,'goods/detail.html',locals())
