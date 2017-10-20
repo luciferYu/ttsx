@@ -14,7 +14,15 @@ class Category(AbstractModel):
 
 
 class GoodsInfoManager(models.Manager):
-    pass
+    def get_new_goods(self,cag):
+        '''获得最新添加的商品4个'''
+        return self.filter(goods_cag=cag).order_by('-id')[:4]
+
+    def get_hot_goods(self,cag):
+        return self.filter(goods_cag=cag).order_by('-goods_visits')[:3]
+
+    def get_new_by_all_goods(self):
+        return self.all().order_by('-id')[:2]
 
 
 class GoodsInfo(AbstractModel):
@@ -32,6 +40,7 @@ class GoodsInfo(AbstractModel):
     goods_visits = models.IntegerField(default=0)  # 商品访问量
     goods_sales = models.IntegerField(default=0)  # 商品销量
     goods_discount = models.FloatField(default=1.0)  # 商品折扣
+    goods_invetory = models.IntegerField(default=0) # 商品库存
 
     goods_cag = models.ForeignKey(Category)  # 商品所属分类
 

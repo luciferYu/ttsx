@@ -113,7 +113,7 @@ html,body{height:100%}
 .points li.active{background-color:#cecece}
 
 .adv{width:240px;height:270px; overflow:hidden; background-color:gold;}
-.adv a{display:block;float:left;}
+.adv a{display:block;float:left;height:135px;}
 
 
 /* 商品列表样式 */

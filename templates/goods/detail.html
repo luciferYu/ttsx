@@ -1,6 +1,7 @@
 {# 继承父模板 #}
 {% extends 'common/base.html' %}
 {% load staticfiles %}
+{% load goods_filters %}
 {% block body %}
     {# 上方用户状态条 #}
     {% include 'common/status.html' %}
@@ -32,7 +33,7 @@
                 </ul>
             </div>
             <ul class="navlist fl">
-                <li><a href="">首页</a></li>
+                <li><a href="{% url 'goods:index' %}">首页</a></li>
                 <li class="interval">|</li>
                 <li><a href="">手机生鲜</a></li>
                 <li class="interval">|</li>
@@ -50,14 +51,14 @@
     </div>
 
     <div class="goods_detail_con clearfix">
-        <div class="goods_detail_pic fl"><img src="{% static 'images/goods_detail.jpg' %}"></div>
+        <div class="goods_detail_pic fl"><img src="{% static goods.goods_image|create_goods_image_name %}"></div>
 
         <div class="goods_detail_list fr">
-            <h3>大兴大棚草莓</h3>
-            <p>草莓浆果柔软多汁，味美爽口，适合速冻保鲜贮藏。草莓速冻后，可以保持原有的色、香、味，既便于贮藏，又便于外销。</p>
+            <h3>{{ goods.goods_name }}</h3>
+            <p>{{ goods.goods_short }}</p>
             <div class="prize_bar">
-                <span class="show_pirze">¥<em>16.80</em></span>
-                <span class="show_unit">单  位：500g</span>
+                <span class="show_pirze">¥<em>{{ goods.goods_price }}</em></span>
+                <span class="show_unit">单  位：{{ goods.goods_unit }}</span>
             </div>
             <div class="goods_num clearfix">
                 <div class="num_name fl">数 量：</div>
@@ -81,14 +82,11 @@
                 <h3>新品推荐</h3>
                 <ul>
                     <li>
-                        <a href="#"><img src="{% static 'images/goods/goods001.jpg' %}"></a>
-                        <h4><a href="#">进口柠檬</a></h4>
-                        <div class="prize">￥3.90</div>
-                    </li>
-                    <li>
-                        <a href="#"><img src="{% static 'images/goods/goods002.jpg' %}"></a>
-                        <h4><a href="#">玫瑰香葡萄</a></h4>
-                        <div class="prize">￥16.80</div>
+                        {% for goods in goods_new %}
+                        <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image|create_goods_image_name %}"></a>
+                        <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+                        <div class="prize">￥{{ goods.goods_price }}</div>
+                        {% endfor %}
                     </li>
                 </ul>
             </div>
@@ -103,8 +101,7 @@
             <div class="tab_content">
                 <dl>
                     <dt>商品详情：</dt>
-                    <dd>草莓采摘园位于北京大兴区 庞各庄镇四各庄村
-                        ，每年1月-6月面向北京以及周围城市提供新鲜草莓采摘和精品礼盒装草莓，草莓品种多样丰富，个大香甜。所有草莓均严格按照有机标准培育，不使用任何化肥和农药。草莓在采摘期间免洗可以直接食用。欢迎喜欢草莓的市民前来采摘，也欢迎各大单位选购精品有机草莓礼盒，有机草莓礼盒是亲朋馈赠、福利送礼的最佳选择。
+                    <dd>{{ goods.goods_desc }}
                     </dd>
                 </dl>
             </div>

@@ -20,11 +20,12 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^favicon\.ico$',RedirectView.as_view(url=r'static/images/favicon.ico'),name='favicon'),
+
     #以下是url委托
     url(r'^$',RedirectView.as_view(url=r'/goods/index/')),
     url(r'^users/',include('users.urls',namespace='users')), #用户模块
     url(r'^order/',include('order.urls',namespace='order')), #订单模块
     url(r'^carts/',include('carts.urls',namespace='carts')), #购物车模块
     url(r'^goods/',include('goods.urls',namespace='goods')), #商品模块
+    url(r'^favicon\.ico$',RedirectView.as_view(url=r'static/favicon.ico'),name='favicon'),
 ]
