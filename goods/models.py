@@ -24,8 +24,13 @@ class GoodsInfoManager(models.Manager):
     def get_new_by_all_goods(self):
         return self.all().order_by('-id')[:2]
 
-    def get_goods_by_cagid(self,cag_id):
-        return self.filter(goods_cag_id=cag_id)
+    def get_goods_by_cagid(self,cag_id,show):
+        if show == 'hot':
+            return self.filter(goods_cag_id=cag_id).order_by('-goods_visits')
+        elif show == 'price':
+            return self.filter(goods_cag_id=cag_id).order_by('-goods_price')
+        elif show == 'default':
+            return self.filter(goods_cag_id=cag_id)
 
 
 class GoodsInfo(AbstractModel):

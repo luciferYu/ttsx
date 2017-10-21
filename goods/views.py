@@ -44,7 +44,8 @@ def list(request,cag_id,page_id):
     title= '天天生鲜-商品列表'
     cags = Category.objects.all() # 获取商品分类
     #根据对应的商品分类获取商品
-    goods_list = GoodsInfo.objects.get_goods_by_cagid(cag_id)
+    show = get(request,'show')
+    goods_list = GoodsInfo.objects.get_goods_by_cagid(cag_id,show)
 
     #分页制作
     paginator = Paginator(goods_list,10) #每页分10个商品
