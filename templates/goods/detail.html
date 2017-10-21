@@ -24,7 +24,7 @@
                         fruit_num.val(num);
                         $(".total em").html(total_price())
                     }
-                )
+                );
                 $(".minus").click(
                     function () {
                         fruit_num = $("#fruit_num");
@@ -35,7 +35,11 @@
                         fruit_num.val(num);
                         $(".total em").html(total_price())
                     }
-                )
+                );
+
+                $.get('{% url 'carts:goods_num' %}', {}, function (data) {
+                    $('#show_count').html(data.total);
+                });
 
 
             }
@@ -57,7 +61,7 @@
         </div>
         <div class="guest_cart fr">
             <a href="cart.html" class="cart_name fl">我的购物车</a>
-            <div class="goods_count fl" id="show_count">1</div>
+            <div class="goods_count fl" id="show_count"></div>
         </div>
     </div>
 
@@ -67,12 +71,18 @@
                 <h1>全部商品分类</h1>
                 <span></span>
                 <ul class="subnav">
-                    <li><a href="#" class="fruit">新鲜水果</a></li>
-                    <li><a href="#" class="seafood">海鲜水产</a></li>
-                    <li><a href="#" class="meet">猪牛羊肉</a></li>
-                    <li><a href="#" class="egg">禽类蛋品</a></li>
-                    <li><a href="#" class="vegetables">新鲜蔬菜</a></li>
-                    <li><a href="#" class="ice">速冻食品</a></li>
+                    <li><a href="{% url 'goods:list' cags.0.id 1 %}?show=default"
+                           class="fruit">{{ cags.0.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.1.id 1 %}?show=default"
+                           class="seafood">{{ cags.1.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.2.id 1 %}?show=default" class="meet">{{ cags.2.cag_name }}</a>
+                    </li>
+                    <li><a href="{% url 'goods:list' cags.3.id 1 %}?show=default" class="egg">{{ cags.3.cag_name }}</a>
+                    </li>
+                    <li><a href="{% url 'goods:list' cags.4.id 1 %}?show=default"
+                           class="vegetables">{{ cags.4.cag_name }}</a></li>
+                    <li><a href="{% url 'goods:list' cags.5.id 1 %}?show=default" class="ice">{{ cags.5.cag_name }}</a>
+                    </li>
                 </ul>
             </div>
             <ul class="navlist fl">
@@ -99,6 +109,7 @@
         <div class="goods_detail_list fr">
             <h3>{{ goods.goods_name }}</h3>
             <p>{{ goods.goods_short }}</p>
+            <input type="hidden" value="{{ goods.id }}" id="goods_id">
             <div class="prize_bar">
                 <span class="show_pirze">¥<em>{{ goods.goods_price }}</em></span>
                 <span class="show_unit">单  位：{{ goods.goods_unit }}</span>
@@ -157,7 +168,6 @@
 {% block footer_js %}
     <script type="text/javascript">
 
-
         $('#add_cart').click(function () {
             var $add_x = $('#add_cart').offset().top;
             var $add_y = $('#add_cart').offset().left;
@@ -173,10 +183,19 @@
                 },
                 "fast", function () {
                     $(".add_jump").fadeOut('fast', function () {
-                        $('#show_count').html(2);
+                        // $('#show_count').html(2);
+                        ;
                     });
 
                 });
+
+            var goods_id = $("#goods_id").val();
+            var goods_num = $("#fruit_num").val();
+
+            $.get('{% url 'carts:add_goods' %}', {'goods_id': goods_id, 'goods_num': goods_num}, function (data) {
+                $('#show_count').html(data.total);
+            })
+
         })
     </script>
 {% endblock footer_js %}

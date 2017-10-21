@@ -29,6 +29,7 @@ def detail(request):
     :return:
     '''
     title= '天天生鲜-商品详情'
+    cags = Category.objects.all()  # 获取商品分类
     try:
         goods = GoodsInfo.objects.get(pk=get(request,'id'))
         goods.goods_visits = int(goods.goods_visits) + 1 # 增加一次访问量

@@ -14,7 +14,7 @@
         </div>
         <div class="guest_cart fr">
             <a href="#" class="cart_name fl">我的购物车</a>
-            <div class="goods_count fl" id="show_count">1</div>
+            <div class="goods_count fl" id="show_count"></div>
         </div>
     </div>
 
@@ -37,7 +37,8 @@
             <li><a href="{% url 'goods:list' cags.1.id 1 %}?show=default" class="seafood">{{ cags.1.cag_name }}</a></li>
             <li><a href="{% url 'goods:list' cags.2.id 1 %}?show=default" class="meet">{{ cags.2.cag_name }}</a></li>
             <li><a href="{% url 'goods:list' cags.3.id 1 %}?show=default" class="egg">{{ cags.3.cag_name }}</a></li>
-            <li><a href="{% url 'goods:list' cags.4.id 1 %}?show=default" class="vegetables">{{ cags.4.cag_name }}</a></li>
+            <li><a href="{% url 'goods:list' cags.4.id 1 %}?show=default" class="vegetables">{{ cags.4.cag_name }}</a>
+            </li>
             <li><a href="{% url 'goods:list' cags.5.id 1 %}?show=default" class="ice">{{ cags.5.cag_name }}</a></li>
         </ul>
         <div class="slide fl">
@@ -90,7 +91,11 @@
 {% endblock body %}
 {# 网底部的JS部分 #}
 {% block footer_js %}
+
     <script type="text/javascript">
+        $.get('{% url 'carts:goods_num' %}', {}, function (data) {
+            $('#show_count').html(data.total);
+        });
         BCSlideshow('focuspic');
         var oFruit = document.getElementById('fruit_more');
         var oShownum = document.getElementById('show_count');
@@ -103,6 +108,8 @@
 
         oFruit.onclick = function () {
             window.location.href = 'list.html';
-        }
+        };
+
+
     </script>
 {% endblock footer_js %}
