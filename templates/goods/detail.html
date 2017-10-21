@@ -53,17 +53,8 @@
     {# 上方用户状态条 #}
     {% include 'common/status.html' %}
 
-    <div class="search_bar clearfix">
-        <a href="index.html" class="logo fl"><img src="{% static '' %}"></a>
-        <div class="search_con fl">
-            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-            <input type="button" class="input_btn fr" name="" value="搜索">
-        </div>
-        <div class="guest_cart fr">
-            <a href="cart.html" class="cart_name fl">我的购物车</a>
-            <div class="goods_count fl" id="show_count"></div>
-        </div>
-    </div>
+     {# logo 搜索 购物车 #}
+    {% include 'goods/goods_search_bar.html' %}
 
     <div class="navbar_con">
         <div class="navbar clearfix">
