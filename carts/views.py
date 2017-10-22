@@ -9,7 +9,26 @@ def index(request):
     return HttpResponse('ok')
 @check_permission
 def carts(request):
-    return render(request,'carts/cart.html')
+    '''购物车主页函数
+    '''
+    #获取当前用户的购物车数据
+    carts = Cart.objects.filter(cart_user_id=get_session(request,'uid'))
+    #计算购物总价
+    total = 0
+    #计算购物总数
+    money = 0
+
+    for cart in carts:
+        cart.single_total = cart.cart_amount * cart.cart_goods.goods_price # 单品总价小计
+        total += cart.cart_amount # 累加商品总价
+        money += cart.single_total #累加商品总数
+
+    # 绑定到购物车
+    carts.money = money
+    carts.total = total
+
+
+    return render(request,'carts/cart.html',locals())
 
 @check_permission
 def add_goods(request):
