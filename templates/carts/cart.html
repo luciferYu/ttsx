@@ -10,20 +10,25 @@
             //js ready
             function () {
 
+                function update_total_price(){
+                    total_money = 0;
+                    total_nums = 0;
+                    $('.cart_list_td').each(function () {
+                        if($(this).find(".goods_choice").prop('checked')){
+                        nums = parseInt($(this).find('.num_show').val());
+                        money = parseFloat($(this).find('.col07').html());
+                        total_nums += nums;
+                        total_money += money;}
+                    });
+                    $('.settlements .col03').find('em').html(total_money.toFixed(2));
+                    $('.settlements .col03').find('b').html(total_nums);
+                }
+
                 function update_cart_infomation(obj) {
                     //更新购物车单样商品小计价格
                     obj.find('.col07').html(((parseFloat(obj.find('.col05').html()) * parseInt(obj.find('.num_show').val())).toFixed(2) + '元'));
                     //更新总价格
-                    total_money = 0;
-                    total_nums = 0;
-                    $('.cart_list_td').each(function () {
-                        nums = parseInt($(this).find('.num_show').val());
-                        money = parseFloat($(this).find('.col07').html());
-                        total_nums += nums;
-                        total_money += money;
-                    });
-                    $('.settlements .col03').find('em').html(total_money.toFixed(2));
-                    $('.settlements .col03').find('b').html(total_nums);
+                    update_total_price()
                 }
 
 
@@ -52,10 +57,32 @@
                     }
                 );
 
+                //输入商品数字时 更新购物车信息
                 $('.num_show').change(function () {
                     row_dady = $(this).parents('.cart_list_td');
                     update_cart_infomation(row_dady);
-                })
+                });
+
+                //商品前的多选框
+                $('.goods_choice').change(
+                    function () {
+                       row_dady = $(this).parents('.cart_list_td');
+                       update_cart_infomation(row_dady);
+                    }
+                );
+
+                //商品全选框点击事件
+                $('.settlements input:checkbox').click(
+                    function () {
+                        if ($(this).prop('checked')){
+                            $('.cart_list_td input:checkbox').prop('checked',true);
+                        }else{
+                             $('.cart_list_td input:checkbox').prop('checked',false);
+                        }
+                        update_total_price()
+                    }
+                );
+
             }
         );
     </script>
@@ -86,7 +113,7 @@
     </ul>
     {% for cart in carts %}
         <ul class="cart_list_td clearfix">
-            <li class="col01"><input type="checkbox" name="" checked></li>
+            <li class="col01"><input type="checkbox" class="goods_choice" id="{{ cart.cart_goods_id }}" name="" checked></li>
             <li class="col02"><img src="{% static cart.cart_goods.goods_image|create_goods_image_name %}"></li>
             <li class="col03">{{ cart.cart_goods.goods_name }}<br><em>{{ cart.cart_goods.goods_price }}元/{{ cart.cart_goods.goods_unit }}</em>
             </li>
