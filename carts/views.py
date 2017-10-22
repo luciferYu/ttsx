@@ -78,7 +78,34 @@ def goods_num(request):
     else:
         return JsonResponse({'total': 0})
 
+def edit_goods_num(request):
+    goods_id = get(request,'goods_id')#从ajax请求获取商品id
+    goods_num = get(request,'goods_num') # 获取购物车里的商品数量
 
+    try:
+        #如果正常取出购物车里的信息，则更新该商品的数量并保存，返回成功
+        cart = Cart.objects.get(cart_user_id=get_session(request,'uid'),cart_goods_id=goods_id)
+        cart.cart_amount = goods_num
+        cart.save()
+    except Cart.DoesNotExist:
+        #否则更新失败
+        return JsonResponse({'ret':0})
+    return JsonResponse({'ret': 1})
 
+def remove_goods(request):
+    '''
+    接受删除商品的ajax请求
+    :param request:
+    :return:
+    '''
+    goods_id = get(request, 'goods_id')  # 从ajax请求获取商品id
+    try:
+        # 找到商品的ID的条目并删除
+        cart = Cart.objects.get(cart_user_id=get_session(request, 'uid'), cart_goods_id=goods_id)
+        cart.delete()
+    except Cart.DoesNotExist:
+        # 如果没有查到数据，什么都不做
+        pass
+    return JsonResponse({'ret': 1})
 
 

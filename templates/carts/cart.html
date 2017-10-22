@@ -10,18 +10,20 @@
             //js ready
             function () {
 
-                function update_total_price(){
+                function update_total_price() {
                     total_money = 0;
                     total_nums = 0;
                     $('.cart_list_td').each(function () {
-                        if($(this).find(".goods_choice").prop('checked')){
-                        nums = parseInt($(this).find('.num_show').val());
-                        money = parseFloat($(this).find('.col07').html());
-                        total_nums += nums;
-                        total_money += money;}
+                        if ($(this).find(".goods_choice").prop('checked')) {
+                            nums = parseInt($(this).find('.num_show').val());
+                            money = parseFloat($(this).find('.col07').html());
+                            total_nums += nums;
+                            total_money += money;
+                        }
                     });
                     $('.settlements .col03').find('em').html(total_money.toFixed(2));
                     $('.settlements .col03').find('b').html(total_nums);
+                    $('.total_count em').html(total_nums)
                 }
 
                 function update_cart_infomation(obj) {
@@ -39,7 +41,7 @@
                         goods_num_input = row_dady.find('.num_show');
                         single_num = parseInt(goods_num_input.val()) + 1;
                         goods_num_input.val(single_num);
-                        update_cart_infomation(row_dady);
+                        update_db_goods_num($(this))
                     }
                 );
 
@@ -54,6 +56,7 @@
                         }
                         goods_num_input.val(single_num);
                         update_cart_infomation(row_dady);
+                        update_db_goods_num($(this))
                     }
                 );
 
@@ -61,23 +64,24 @@
                 $('.num_show').change(function () {
                     row_dady = $(this).parents('.cart_list_td');
                     update_cart_infomation(row_dady);
+                    update_db_goods_num($(this))
                 });
 
                 //商品前的多选框
                 $('.goods_choice').change(
                     function () {
-                       row_dady = $(this).parents('.cart_list_td');
-                       update_cart_infomation(row_dady);
+                        row_dady = $(this).parents('.cart_list_td');
+                        update_cart_infomation(row_dady);
                     }
                 );
 
                 //商品全选框点击事件
                 $('.settlements input:checkbox').click(
                     function () {
-                        if ($(this).prop('checked')){
-                            $('.cart_list_td input:checkbox').prop('checked',true);
-                        }else{
-                             $('.cart_list_td input:checkbox').prop('checked',false);
+                        if ($(this).prop('checked')) {
+                            $('.cart_list_td input:checkbox').prop('checked', true);
+                        } else {
+                            $('.cart_list_td input:checkbox').prop('checked', false);
                         }
                         update_total_price()
                     }
@@ -86,13 +90,57 @@
                 //删除商品按钮
                 $(".cart_list_td .col08").click(
                     function () {
-                        if(confirm('确认删掉本条记录吗？')){
-                        $(this).parents('.cart_list_td').remove();
-                        update_total_price();
+                        if (confirm('确认删掉本条记录吗？')) {
+                            $(this).parents('.cart_list_td').remove();
+                            remove_db_goods_from_cart($(this));
+                            update_total_price();
                         }
                     }
+                );
 
-                )
+                //ajax更新后端商品数量
+                function update_db_goods_num(obj) {
+                    //ajax发送到后端的请求
+                    goods_id = $(obj).parents('.cart_list_td').find('.col01 input:checkbox').prop('id');
+                    goods_num = $(obj).parents('.cart_list_td').find('.num_show').val();
+                    $.ajax(
+                        {
+                            'url': '{% url 'carts:edit_goods_num' %}',
+                            'data': {
+                                'goods_id': goods_id,
+                                'goods_num': goods_num
+                            },
+                            'type': 'get',
+                            'async': false,
+                            'success': function (data) {
+                                if (data.ret != 0) {
+                                    //更新商品信息
+                                    update_cart_infomation(obj.parents('.cart_list_td'));
+                                }
+                            }
+                        }
+                    )
+                }
+
+
+                //ajax更新后端商品数量
+                function remove_db_goods_from_cart(obj) {
+                    //ajax发送到后端的请求
+                    goods_id = $(obj).parents('.cart_list_td').find('.col01 input:checkbox').prop('id');
+                    $.ajax(
+                        {
+                            'url': '{% url 'carts:remove_goods' %}',
+                            'data': {'goods_id': goods_id},
+                            'type': 'get',
+                            'async': false,
+                            'success': function (data) {
+
+                                //更新商品信息
+                                update_cart_infomation(obj.parents('.cart_list_td'));
+                            }
+                        }
+                    )
+                }
 
             }
         );
@@ -124,7 +172,8 @@
     </ul>
     {% for cart in carts %}
         <ul class="cart_list_td clearfix">
-            <li class="col01"><input type="checkbox" class="goods_choice" id="{{ cart.cart_goods_id }}" name="" checked></li>
+            <li class="col01"><input type="checkbox" class="goods_choice" id="{{ cart.cart_goods_id }}" name="" checked>
+            </li>
             <li class="col02"><img src="{% static cart.cart_goods.goods_image|create_goods_image_name %}"></li>
             <li class="col03">{{ cart.cart_goods.goods_name }}<br><em>{{ cart.cart_goods.goods_price }}元/{{ cart.cart_goods.goods_unit }}</em>
             </li>
