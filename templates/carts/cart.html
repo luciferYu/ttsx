@@ -83,6 +83,17 @@
                     }
                 );
 
+                //删除商品按钮
+                $(".cart_list_td .col08").click(
+                    function () {
+                        if(confirm('确认删掉本条记录吗？')){
+                        $(this).parents('.cart_list_td').remove();
+                        update_total_price();
+                        }
+                    }
+
+                )
+
             }
         );
     </script>
