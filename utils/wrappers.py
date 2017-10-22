@@ -11,6 +11,9 @@ from django.core.urlresolvers import reverse
 def post(request,key):
     return request.POST.get(key,'').strip()
 
+def post_list(request,key):
+    return request.POST.getlist(key)
+
 #get方法去掉空格
 def get(request,key):
     return request.GET.get(key,'').strip()

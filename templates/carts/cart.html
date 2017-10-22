@@ -142,6 +142,25 @@
                     )
                 }
 
+                //提交表单
+                $('.settlements .col04').click(
+                    function () {
+                        flag = false;//假设用户没有选中
+                        $('.cart_list_td input:checkbox').each(
+                            function () {
+                                if($(this).prop('checked')){
+                                    flag = true;
+                                    return false;//相当于break 退出循环
+                                }
+                            }
+                        );
+                        if(flag){
+                            $('#order').submit();
+                        }else{
+                            alert('您尚未选中任何商品');
+                        }
+
+                })
             }
         );
     </script>
@@ -170,9 +189,11 @@
         <li class="col05">小计</li>
         <li class="col06">操作</li>
     </ul>
+    <form id="order" action="{% url 'order:place_order' %}" method="post">
+    {% csrf_token %}
     {% for cart in carts %}
         <ul class="cart_list_td clearfix">
-            <li class="col01"><input type="checkbox" class="goods_choice" id="{{ cart.cart_goods_id }}" name="" checked>
+            <li class="col01"><input type="checkbox" class="goods_choice" id="{{ cart.cart_goods_id }}" value="{{ cart.cart_goods_id }}" name="goods_id" checked>
             </li>
             <li class="col02"><img src="{% static cart.cart_goods.goods_image|create_goods_image_name %}"></li>
             <li class="col03">{{ cart.cart_goods.goods_name }}<br><em>{{ cart.cart_goods.goods_price }}元/{{ cart.cart_goods.goods_unit }}</em>
@@ -197,6 +218,7 @@
         <li class="col01"><input type="checkbox" name="" checked=""></li>
         <li class="col02">全选</li>
         <li class="col03">合计(不含运费)：<span>¥</span><em>{{ carts.money }}</em><br>共计<b>{{ carts.total }}</b>件商品</li>
-        <li class="col04"><a href="place_order.html">去结算</a></li>
+        <li class="col04"><a href="javascript:;">去结算</a></li>
     </ul>
+     </form>
 {% endblock body %}
