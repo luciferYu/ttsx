@@ -3,17 +3,17 @@
 {% load staticfiles %}
 {% load goods_filters %}
 {% block header_css %}
-{#    <style>#}
+    <style>
 {#        #container {#}
 {#            height: 400px;#}
-{#            width: 500px;#}
-{#            margin: 100px auto;#}
+{#            width: 600px;#}
+{#            margin: 100px 100px;#}
 {#        }#}
-{#    </style>#}
+    </style>
 {% endblock header_css %}
 {% block body %}
-    <span {# style="display: none" #}id="cags_list">{{ cags_list }}</span>
-    <span id="top5_fruit">{{ top5_fruit }}</span>
+    <span style="display: none" id="cags_list">{{ cags_list }}</span>
+    <span id="top5_fruit" style="display: none">{{ visit_list }}</span>
     <div id="container">
 
 
@@ -28,26 +28,25 @@
             type: 'column'
         },
         title: {
-            text: '月平均降雨量'
+            text: '商品访问量'
         },
         subtitle: {
-            text: '数据来源: WorldClimate.com'
+            text: '数据来源: mysql数据库'
         },
         xAxis: {
-            categories: eval($('#cags_list').html()),
-{#            categories: ['水果访问量',],#}
+            categories: ['第一名','第二名','第三名','第四名','第五名'],
             crosshair: true
         },
         yAxis: {
             min: 0,
             title: {
-                text: '降雨量 (mm)'
+                text: '访问量 (次)'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.f} 次</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -60,17 +59,24 @@
         },
         series: [{
             name: '新鲜水果',
-            data: eval($('#top5_fruit').html())
+            data: eval($('#top5_fruit').html())[0]
         }, {
-            name: '纽约',
-            data: [83.6,]
+            name: '海鲜水产',
+            data:  eval($('#top5_fruit').html())[1]
         }, {
-            name: '伦敦',
-            data: [48.9,]
+            name: '猪牛羊肉',
+            data:  eval($('#top5_fruit').html())[2]
         }, {
-            name: '柏林',
-            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, ]
-        }]
+            name: '禽类单品',
+            data:  eval($('#top5_fruit').html())[3]
+        },{
+            name: '新鲜蔬菜',
+            data: eval($('#top5_fruit').html())[4]
+        },{
+            name: '速冻食品',
+            data: eval($('#top5_fruit').html())[5]
+        }
+        ]
     });
 });
 

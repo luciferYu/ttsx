@@ -66,10 +66,13 @@ def goods_chart(request):
     for cag in cags:
         cags_list.append(cag.cag_name)
 
-    top5_fruit = []
-    fruits = GoodsInfo.objects.filter(goods_cag_id=1).order_by('-goods_visits')[:5]
-    for fruit in fruits:
-        top5_fruit.append(fruit.goods_visits)
+    visit_list = []
+    for id in range(1,7):
+        goods = GoodsInfo.objects.filter(goods_cag_id=id).order_by('-goods_visits')[:5]
+        glist = []
+        for good in goods:
+            glist.append(good.goods_visits)
+        visit_list.append(glist)
 
 
     return render(request,'goods/goods_chart.html',locals())
