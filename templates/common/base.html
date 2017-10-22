@@ -35,6 +35,7 @@
     <!--网页的标题-->
     <title>{{ title }}</title>
     <style></style><!--页内的css-->
+    {% block header_css %}{% endblock header_css %}
     <script>
         //页内的js
         $(function () {  //js ready
@@ -43,6 +44,7 @@
     </script>
     {# 头部的JS部分 #}
     {% block header_js %}{% endblock header_js %}
+
 
 </head>
 <body>

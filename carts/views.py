@@ -49,12 +49,15 @@ def add_goods(request):
 def goods_num(request):
     '''初始化购物车数量'''
     user_id = get_session(request, 'uid')
-    goods_in_cart = Cart.objects.filter(cart_user_id=user_id)
-    total = 0
-    for goods in goods_in_cart:
-        total += goods.cart_amount
+    if user_id:
+        goods_in_cart = Cart.objects.filter(cart_user_id=user_id)
+        total = 0
+        for goods in goods_in_cart:
+            total += goods.cart_amount
 
-    return JsonResponse({'total': total})
+        return JsonResponse({'total': total})
+    else:
+        return JsonResponse({'total': 0})
 
 
 

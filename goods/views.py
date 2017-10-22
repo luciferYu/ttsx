@@ -59,3 +59,17 @@ def list(request,cag_id,page_id):
     page_id = int(page_id)  #此处一定要转换类型才可以在模板里进行比较，实现分页高亮效果
 
     return render(request,'goods/list.html',locals())
+
+def goods_chart(request):
+    cags = Category.objects.all()
+    cags_list = []
+    for cag in cags:
+        cags_list.append(cag.cag_name)
+
+    top5_fruit = []
+    fruits = GoodsInfo.objects.filter(goods_cag_id=1).order_by('-goods_visits')[:5]
+    for fruit in fruits:
+        top5_fruit.append(fruit.goods_visits)
+
+
+    return render(request,'goods/goods_chart.html',locals())

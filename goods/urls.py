@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^index/$',index,name='index'),
     url(r'^detail/$',detail,name='detail'),
     url(r'^list/(\d+)/(\d+)$',list,name='list'),
+    url(r'^goods_chart/$',goods_chart,name='goods_chart')
 
 ]
 
