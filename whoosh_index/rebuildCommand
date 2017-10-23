@@ -1,0 +1,11 @@
+C:\Users\lucifer\Desktop\learnpython\python_advan\stage04\作业\ttsx>python manage.py rebuild_index
+WARNING: This will irreparably remove EVERYTHING from your search index in connection 'default'.
+Your choices after this are to restore from backups or rebuild via the `rebuild_index` command.
+Are you sure you wish to continue? [y/N] y
+Removing all documents from your index because you said so.
+All documents removed.
+Indexing 359 goods infos
+Building prefix dict from the default dictionary ...
+Loading model from cache C:\Users\lucifer\AppData\Local\Temp\jieba.cache
+Loading model cost 1.786 seconds.
+Prefix dict has been built succesfully.

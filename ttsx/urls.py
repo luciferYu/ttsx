@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^carts/',include('carts.urls',namespace='carts')), #购物车模块
     url(r'^goods/',include('goods.urls',namespace='goods')), #商品模块
     url(r'^favicon\.ico$',RedirectView.as_view(url=r'static/favicon.ico'),name='favicon'),
+    url(r'^search/',include('haystack.urls')),  #全文搜索
 ]

@@ -8,10 +8,12 @@
     <div class="search_bar clearfix">
         <a href="index.html" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
         <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-        <div class="search_con fr">
-            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-            <input type="button" class="input_btn fr" name="" value="搜索">
-        </div>
+        <form method="get" action="/search/">
+            <div class="search_con fr">
+                <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+                <input type="submit" class="input_btn fr" value="搜索">
+            </div>
+        </form>
     </div>
 
     <div class="main_con clearfix">
@@ -41,14 +43,16 @@
                     <tbody>
                     <tr>
                         <td width="55%">
-                            {%  for goods in order.orderdetail_set.all %}
-                            <ul class="order_goods_list clearfix">
-                                <li class="col01"><img src="{% static goods.detail_img|create_goods_image_name %}"></li>
-                                <li class="col02">{{ goods.detail_name }}<em>{{ goods.detail_price }}元/{{ goods.detail_unit }}</em></li>
-                                <li class="col03">{{ goods.detail_amount }}</li>
-                                <li class="col04">{{ goods.detail_price }}元</li>
-                            </ul>
-                                {% endfor %}
+                            {% for goods in order.orderdetail_set.all %}
+                                <ul class="order_goods_list clearfix">
+                                    <li class="col01"><img src="{% static goods.detail_img|create_goods_image_name %}">
+                                    </li>
+                                    <li class="col02">{{ goods.detail_name }}<em>{{ goods.detail_price }}元/{{ goods.detail_unit }}</em>
+                                    </li>
+                                    <li class="col03">{{ goods.detail_amount }}</li>
+                                    <li class="col04">{{ goods.detail_price }}元</li>
+                                </ul>
+                            {% endfor %}
                         </td>
                         <td width="15%">{{ order.total }}元</td>
                         <td width="15%">
@@ -71,15 +75,16 @@
 
             <div class="pagenation">
                 {% if my_orders.has_previous %}
-                <a href="?page={{ my_orders.previous_page_number }}">
-                    &lt;上一页
-                </a>
+                    <a href="?page={{ my_orders.previous_page_number }}">
+                        &lt;上一页
+                    </a>
                 {% endif %}
                 {% for index in paginator.page_range %}
-                <a href="?page={{ index }}" {% if index == my_orders.number %}class="active"{% endif %}>{{ index }}</a>
+                    <a href="?page={{ index }}"
+                       {% if index == my_orders.number %}class="active"{% endif %}>{{ index }}</a>
                 {% endfor %}
                 {% if my_orders.has_next %}
-                <a href="?page={{ my_orders.next_page_number }}">下一页&gt;</a>
+                    <a href="?page={{ my_orders.next_page_number }}">下一页&gt;</a>
                 {% endif %}
             </div>
         </div>

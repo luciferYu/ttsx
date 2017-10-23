@@ -8,21 +8,24 @@
     <div class="search_bar clearfix">
         <a href="index.html" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
         <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-        <div class="search_con fr">
-            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-            <input type="button" class="input_btn fr" name="" value="搜索">
-        </div>
+        <form method="get" action="/search/">
+            <div class="search_con fr">
+                <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+                <input type="submit" class="input_btn fr" value="搜索">
+            </div>
+        </form>
     </div>
 
     <div class="main_con clearfix">
-      {# 左侧菜单 #}
-        {% include 'users/common_left_menu.html' with flag='site'  %}
+        {# 左侧菜单 #}
+        {% include 'users/common_left_menu.html' with flag='site' %}
         <div class="right_content clearfix">
             <h3 class="common_title2">收货地址</h3>
             <div class="site_con">
                 <dl>
                     <dt>当前地址：</dt>
-                    <dd>{{ useraddr|default:'尚未填写地址' }} （{{ userrecv|default:'未填写收件人' }} 收） {{ usertele2|default:'未填写手机号码'  }}</dd>
+                    <dd>{{ useraddr|default:'尚未填写地址' }} （{{ userrecv|default:'未填写收件人' }}
+                        收） {{ usertele2|default:'未填写手机号码' }}</dd>
                 </dl>
             </div>
             <h3 class="common_title2">编辑地址</h3>
@@ -39,13 +42,13 @@
                     </div>
                     <div class="form_group">
                         <label>邮编：</label>
-                        <input type="text" value="{{ usercode|default:'未填写'  }}" name="user_code">
+                        <input type="text" value="{{ usercode|default:'未填写' }}" name="user_code">
                     </div>
                     <div class="form_group">
                         <label>手机：</label>
-                        <input type="text" value="{{ usertele|default:'未填写'  }}" name="user_tele">
+                        <input type="text" value="{{ usertele|default:'未填写' }}" name="user_tele">
                     </div>
-                    <input type="submit"  value="提交" class="info_submit">
+                    <input type="submit" value="提交" class="info_submit">
                 </form>
             </div>
         </div>
