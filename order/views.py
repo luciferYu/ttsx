@@ -85,6 +85,7 @@ def order_handle(request):
         transaction.savepoint_commit(save_point) # 成功提交事务
     except:
         transaction.savepoint_rollback(save_point) # 失败滚回保存点
+        return JsonResponse({'ret': 0})
 
     return JsonResponse({'ret':1})
 

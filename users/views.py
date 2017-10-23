@@ -1,9 +1,12 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 # Create your views here.
 from django.http import HttpResponse,JsonResponse
 from .functions import *
 from django.contrib import messages
+from order.models import *
+
 
 
 def index(request):
@@ -71,12 +74,24 @@ def user_center_info(request):
 
 @check_permission
 def user_center_order(request):
-    title = '天天生鲜-用户中心'
+    title = '天天生鲜-用户订单'
+    my_orders = Order.objects.filter(order_user_id=get_session(request,'uid'))
+    paginator = Paginator(my_orders,3)#分页
+    current_page = get(request,'page')
+    if not current_page:
+        current_page = 1
+    my_orders = paginator.page(current_page)
+    for order in my_orders:
+        order.total = 0
+        for goods in order.orderdetail_set.all():
+            order.total += goods.detail_amount * goods.detail_price
+
+
     return render(request, 'users/user_center_order.html', locals())
 
 @check_permission
 def user_center_site(request):
-    title = '天天生鲜-用户中心'
+    title = '天天生鲜-用户地址'
     current_user = User.objects.get_user_by_name(get_session(request,'username'))
     userrecv = current_user.user_recv
     useraddr = current_user.user_addr
@@ -97,6 +112,7 @@ def check_username(request):
     else:
         return JsonResponse({'ret':0})
 
+@check_permission
 def user_addr_edit(request):
     '''
     更新用户信息
